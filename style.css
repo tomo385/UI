@@ -85,3 +85,23 @@ main {
   font-family: monospace;
   line-height: 1.6;
 }
+
+.search-controls {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+#searchBtn {
+  padding: 0.7rem 1.5rem;
+  background-color: #3a8dd5;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#searchBtn:hover {
+  background-color: #2f7bc3;
+}
