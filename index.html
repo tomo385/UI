@@ -3,104 +3,142 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SatoshiScope - Rare Sats Explorer</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Rare Sats Explorer</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: white;
+    }
+    header {
+      text-align: center;
+      padding: 20px;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 10px;
+    }
+    .filter-group {
+      border: 1px solid #444;
+      border-radius: 6px;
+      margin: 10px;
+      padding: 15px;
+      min-width: 220px;
+      background-color: #1e1e1e;
+    }
+    .filter-group h3 {
+      margin-top: 0;
+      font-size: 1.1em;
+      border-bottom: 1px solid #444;
+      padding-bottom: 6px;
+    }
+    label {
+      display: block;
+      margin: 5px 0;
+    }
+    .year-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 6px;
+    }
+  </style>
 </head>
-<body class="dark">
-  <header>
-    <h1>🔍 Rare Sats Explorer</h1>
-    <label class="switch">
-      <input type="checkbox" id="darkModeToggle" checked />
-      <span class="slider"></span>
-    </label>
-  </header>
+<body>
+  <header>Rare Sats Explorer 🔍</header>
+  <div class="container">
 
-  <main>
-    <section class="filters">
-      <h2>Filters</h2>
-      <div class="filter-group">
-        <h3>Rodarmor Rarity</h3>
-        <label><input type="checkbox"> 🟣 uncommon</label>
-        <label><input type="checkbox"> 🔵 rare</label>
-        <label><input type="checkbox"> 🟠 epic</label>
+    <div class="filter-group">
+      <h3>Rodarmor Rarity</h3>
+      <label><input type="checkbox" /> uncommon</label>
+      <label><input type="checkbox" /> rare</label>
+      <label><input type="checkbox" /> epic</label>
+    </div>
+
+    <div class="filter-group">
+      <h3>Black</h3>
+      <label><input type="checkbox" /> black_uncommon</label>
+      <label><input type="checkbox" /> black_rare</label>
+      <label><input type="checkbox" /> black_epic</label>
+    </div>
+
+    <div class="filter-group">
+      <h3>Other Types</h3>
+      <label><input type="checkbox" /> palindrome</label>
+      <label><input type="checkbox" /> 1_digit</label>
+      <label><input type="checkbox" /> 2_digits</label>
+      <label><input type="checkbox" /> 3_digits</label>
+      <label><input type="checkbox" /> perfect_palindrome</label>
+      <label><input type="checkbox" /> sequence_palindrome</label>
+      <label><input type="checkbox" /> alpha</label>
+      <label><input type="checkbox" /> omega</label>
+    </div>
+
+    <div class="filter-group">
+      <h3>Historical</h3>
+      <label><input type="checkbox" /> 450x</label>
+      <label><input type="checkbox" /> block_9</label>
+      <label><input type="checkbox" /> jan2009</label>
+      <label><input type="checkbox" /> 2009</label>
+      <label><input type="checkbox" /> vintage</label>
+      <label><input type="checkbox" /> block_78</label>
+      <label><input type="checkbox" /> block_286</label>
+      <label><input type="checkbox" /> block_666</label>
+      <label><input type="checkbox" /> nakamoto</label>
+    </div>
+
+    <div class="filter-group">
+      <h3>Events</h3>
+      <label><input type="checkbox" /> pizza</label>
+      <label><input type="checkbox" /> jpeg</label>
+      <label><input type="checkbox" /> hitman</label>
+      <label><input type="checkbox" /> silkroad</label>
+    </div>
+
+    <div class="filter-group">
+      <h3>Other</h3>
+      <label><input type="checkbox" /> paliblock</label>
+      <label><input type="checkbox" /> rodarmor</label>
+      <label><input type="checkbox" /> fibonacci</label>
+      <label><input type="checkbox" /> legacy</label>
+    </div>
+
+    <div class="filter-group">
+      <h3>Halving Epochs</h3>
+      <label><input type="checkbox" /> epoch0</label>
+      <label><input type="checkbox" /> epoch1</label>
+      <label><input type="checkbox" /> epoch2</label>
+      <label><input type="checkbox" /> epoch3</label>
+      <label><input type="checkbox" /> epoch4</label>
+    </div>
+
+    <div class="filter-group">
+      <h3>Year Mined</h3>
+      <div class="year-grid">
+        <label><input type="checkbox" /> 2009</label>
+        <label><input type="checkbox" /> 2010</label>
+        <label><input type="checkbox" /> 2011</label>
+        <label><input type="checkbox" /> 2012</label>
+        <label><input type="checkbox" /> 2013</label>
+        <label><input type="checkbox" /> 2014</label>
+        <label><input type="checkbox" /> 2015</label>
+        <label><input type="checkbox" /> 2016</label>
+        <label><input type="checkbox" /> 2017</label>
+        <label><input type="checkbox" /> 2018</label>
+        <label><input type="checkbox" /> 2019</label>
+        <label><input type="checkbox" /> 2020</label>
+        <label><input type="checkbox" /> 2021</label>
+        <label><input type="checkbox" /> 2022</label>
+        <label><input type="checkbox" /> 2023</label>
+        <label><input type="checkbox" /> 2024</label>
+        <label><input type="checkbox" /> 2025</label>
       </div>
+    </div>
 
-      <div class="filter-group">
-        <h3>Palindrome</h3>
-        <label><input type="checkbox"> 1D</label>
-        <label><input type="checkbox"> 2D</label>
-        <label><input type="checkbox"> 3D</label>
-      </div>
-
-      <div class="filter-group">
-        <h3>Other Traits</h3>
-        <label><input type="checkbox"> 🧠 alpha</label>
-        <label><input type="checkbox"> 🌀 omega</label>
-      </div>
-
-      <div class="filter-group">
-        <h3>Historical</h3>
-        <label><input type="checkbox"> 🧱 jan2009</label>
-        <label><input type="checkbox"> ⛏ block_9</label>
-        <label><input type="checkbox"> 🧓 vintage</label>
-        <label><input type="checkbox"> 💾 block_78</label>
-        <label><input type="checkbox"> ☠ block_666</label>
-        <label><input type="checkbox"> ⚡ nakamoto</label>
-      </div>
-
-      <div class="filter-group">
-        <h3>Events</h3>
-        <label><input type="checkbox"> 🍕 pizza</label>
-        <label><input type="checkbox"> 💀 hitman</label>
-        <label><input type="checkbox"> 🧳 silkroad</label>
-        <label><input type="checkbox"> 🖼 jpeg</label>
-      </div>
-
-      <div class="filter-group">
-        <h3>Epochs</h3>
-        <label><input type="checkbox"> 0️⃣ epoch 0</label>
-        <label><input type="checkbox"> 1️⃣ epoch 1</label>
-        <label><input type="checkbox"> 2️⃣ epoch 2</label>
-        <label><input type="checkbox"> 3️⃣ epoch 3</label>
-        <label><input type="checkbox"> 4️⃣ epoch 4</label>
-      </div>
-
-      <div class="filter-group">
-  <h3>Year Mined</h3>
-  <div class="year-grid-vertical">
-    <label><input type="checkbox"> 2009</label>
-    <label><input type="checkbox"> 2010</label>
-    <label><input type="checkbox"> 2011</label>
-    <label><input type="checkbox"> 2012</label>
-    <label><input type="checkbox"> 2013</label>
-    <label><input type="checkbox"> 2014</label>
-
-    <label><input type="checkbox"> 2015</label>
-    <label><input type="checkbox"> 2016</label>
-    <label><input type="checkbox"> 2017</label>
-    <label><input type="checkbox"> 2018</label>
-    <label><input type="checkbox"> 2019</label>
-    <label><input type="checkbox"> 2020</label>
-    
-    <label><input type="checkbox"> 2021</label>
-    <label><input type="checkbox"> 2022</label>
-    <label><input type="checkbox"> 2023</label>
-    <label><input type="checkbox"> 2024</label>
-    <label><input type="checkbox"> 2025</label>
   </div>
-      </div>
-
-      <div class="filter-group">
-        <h3>Extra</h3>
-        <label><input type="checkbox"> 🔟 Sub 10K</label>
-        <label><input type="checkbox"> 💯 Sub 100K</label>
-        <label><input type="checkbox"> 🧬 Fibonacci</label>
-        <label><input type="checkbox"> ♾️ Legacy</label>
-        <label><input type="checkbox"> ✍️ Hal Finney Block</label>
-      </div>
-    </section>
-  </main>
-
-  <script src="script.js"></script>
 </body>
 </html>
