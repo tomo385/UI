@@ -1,85 +1,75 @@
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #111;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #111;
   color: #fff;
 }
 
 header {
-  background: #222;
-  padding: 1em;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #1a1a1a;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #333;
 }
 
 h1 {
-  margin: 0;
-  font-size: 1.5em;
+  font-size: 1.5rem;
+}
+
+#toggle-theme {
+  background: #333;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .filters {
-  padding: 1em;
-  max-width: 900px;
-  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
-.filter-group {
-  border: 1px solid #333;
-  padding: 1em;
-  margin-bottom: 1em;
-  border-radius: 5px;
-  background: #1a1a1a;
+.filter-box {
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  padding: 1rem;
+  min-width: 250px;
+  flex: 1 1 300px;
 }
 
-label {
+.filter-box h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  border-bottom: 1px solid #444;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.filter-box label {
   display: block;
-  margin: 0.3em 0;
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
 }
 
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 24px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0; left: 0;
-  right: 0; bottom: 0;
-  background-color: #ccc;
-  transition: .4s;
-  border-radius: 24px;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 18px; width: 18px;
-  left: 3px; bottom: 3px;
-  background-color: white;
-  transition: .4s;
-  border-radius: 50%;
-}
-
-input:checked + .slider {
-  background-color: #4CAF50;
-}
-
-input:checked + .slider:before {
-  transform: translateX(26px);
-}
-
-.year-grid {
+.year-mined .year-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 6px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
 }
+
+.live-listings {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #1c1c1c;
