@@ -73,3 +73,15 @@ main {
   margin-top: 2rem;
   padding: 1rem;
   background-color: #1c1c1c;
+  border-radius: 10px;
+}
+
+.live-listings h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+#listings {
+  font-family: monospace;
+  line-height: 1.6;
+}
