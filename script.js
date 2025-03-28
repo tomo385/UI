@@ -26,9 +26,7 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
       const price = listing.price || 'N/A';
       const source = listing.source || 'Magic Eden';
       const tags = listing.satributes?.join(', ') || 'None';
-      const link = source === 'Magic Eden'
-        ? `https://magiceden.io/ordinals/item-details/${listing.token_id}`
-        : listing.source_url || '#';
+      const response = await fetch('/.netlify/functions/fetchListings');
 
       const entry = document.createElement('div');
       entry.innerHTML = `
