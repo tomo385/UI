@@ -1,26 +1,19 @@
-import fetch from 'node-fetch';
+const fs = require('fs');
+const path = require('path');
 
-exports.handler = async function(event, context) {
-  const API_URL = 'https://api-mainnet.magiceden.dev/v2/ord/btc/raresats/listings';
-
+exports.handler = async function () {
   try {
-    const response = await fetch(API_URL);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const data = await response.json();
+    const filePath = path.join(__dirname, 'listingsCache.json');
+    const listings = fs.readFileSync(filePath, 'utf-8');
+
     return {
       statusCode: 200,
-      body: JSON.stringify(data),
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json',
-      },
+      body: listings
     };
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: error.message }),
+      body: JSON.stringify({ error: 'Failed to load cached listings.' })
     };
   }
 };
