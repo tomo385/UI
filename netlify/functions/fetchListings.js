@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
 
 exports.handler = async function(event, context) {
   const API_URL = 'https://api-mainnet.magiceden.dev/v2/ord/btc/raresats/listings';
