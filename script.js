@@ -15,13 +15,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const listings = await response.json();
 
+      // 🔁 Filter only black_rare listings
       const filtered = listings.filter(item => {
         const tags = item.satributes || [];
-        return tags.includes("black_uncommon");
+        return tags.includes("black_rare");
       });
 
       if (filtered.length === 0) {
-        listingsContainer.innerHTML = "<li>No listings found for black_uncommon.</li>";
+        listingsContainer.innerHTML = "<li>No listings found for black_rare.</li>";
         return;
       }
 
