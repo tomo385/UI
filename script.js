@@ -4,9 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (searchBtn) {
     searchBtn.addEventListener("click", fetchListings);
-  } else {
-    // fallback to auto-fetch
-    fetchListings();
   }
 
   async function fetchListings() {
@@ -34,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const sat = item.sat_ranges?.[0]?.start || "N/A";
         const block = item.block || "N/A";
         const price = item.price || "N/A";
-        const link = item.link || `https://magiceden.io/ordinals/item-details/${item.tokenMint}`;
+        const link = item.link || `https://magiceden.io/ordinals/item-details/${item.token_id}`;
 
         const li = document.createElement("li");
         li.innerHTML = `
@@ -49,4 +46,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
-
