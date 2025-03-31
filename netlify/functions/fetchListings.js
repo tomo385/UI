@@ -1,28 +1,20 @@
-const fs = require("fs");
-const path = require("path");
+const fetch = require('node-fetch');
 
-exports.handler = async function () {
+exports.handler = async function(event, context) {
   try {
-    const filePath = path.join(__dirname, "listingsCache.json");
+    const response = await fetch("https://api-mainnet.magiceden.dev/v2/ord/btc/raresats/listings");
+    const data = await response.json();
 
-    if (!fs.existsSync(filePath)) {
-      return {
-        statusCode: 404,
-        body: JSON.stringify({ error: "No cached listings available. Please run updateCache first." }),
-      };
-    }
-
-    const data = fs.readFileSync(filePath, "utf8");
-    const listings = JSON.parse(data);
+    const filtered = data.filter(item => item.satributes && item.satributes.includes("palindrome"));
 
     return {
       statusCode: 200,
-      body: JSON.stringify(listings),
+      body: JSON.stringify(filtered)
     };
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: error.message }),
+      body: JSON.stringify({ error: "Magic Eden error: " + error.message })
     };
   }
 };
