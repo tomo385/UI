@@ -1,4 +1,3 @@
-// netlify/functions/fetchListings.js
 const fetch = require("node-fetch");
 
 exports.handler = async function () {
@@ -20,6 +19,7 @@ exports.handler = async function () {
       satributes: item.satributes,
       source: "Magic Eden",
       link: `https://magiceden.io/ordinals/item-details/${item.token_id}`,
+      tokenMint: item.token_id
     }));
 
     return {
