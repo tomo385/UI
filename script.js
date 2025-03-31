@@ -1,70 +1,43 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const searchBtn = document.getElementById("searchBtn");
-  const listingsContainer = document.getElementById("results-list");
+document.getElementById('searchBtn').addEventListener('click', async () => {
+  const listingsContainer = document.getElementById('listings');
+  listingsContainer.innerHTML = 'Loading all listings...';
 
-  if (searchBtn) {
-    searchBtn.addEventListener("click", fetchListings);
-  }
+  try {
+    const response = await fetch('https://api-mainnet.magiceden.dev/v2/ord/btc/raresats/listings');
+    const data = await response.json();
 
-  async function fetchListings() {
-    listingsContainer.innerHTML = "<li>Loading...</li>";
-
-    try {
-      const response = await fetch("/.netlify/functions/fetchListings");
-      if (!response.ok) throw new Error("Fetch failed");
-
-      const listings = await response.json();
-
-      // 🔁 Filter only black_rare listings
-      const filtered = listings.filter(item => {
-        const tags = item.satributes || [];
-        return tags.includes("black_rare");
-      });
-
-      if (filtered.length === 0) {
-        listingsContainer.innerHTML = "<li>No listings found for black_rare.</li>";
-        return;
-      }
-
-      listingsContainer.innerHTML = "";
-      filtered.forEach(item => {
-        const tags = item.satributes?.join(", ") || "None";
-        const sat = item.sat_ranges?.[0]?.start || "N/A";
-        const block = item.block || "N/A";
-        const price = item.price || "N/A";
-        const link = item.link || `https://magiceden.io/ordinals/item-details/${item.tokenMint}`;
-
-        const li = document.createElement("li");
-        li.innerHTML = `
-          <strong>Magic Eden</strong> | Sat: ${sat} | Block: ${block} | Price: ${price} BTC |
-          Tags: ${tags} | <a href="${link}" target="_blank">Buy</a>
-        `;
-        listingsContainer.appendChild(li);
-      });
-    } catch (err) {
-      listingsContainer.innerHTML = "<li>Error fetching listings.</li>";
-      console.error(err);
+    if (!data || data.length === 0) {
+      listingsContainer.innerHTML = 'No listings found.';
+      return;
     }
+
+    listingsContainer.innerHTML = ''; // Clear previous listings
+
+    data.slice(0, 20).forEach(listing => {
+      const satRange = listing.sat_ranges?.[0];
+      const start = satRange?.start || 'N/A';
+      const end = satRange?.end || 'N/A';
+      const block = listing.block || 'N/A';
+      const price = listing.price || 'N/A';
+      const tags = listing.satributes?.join(', ') || 'None';
+      const link = listing.source === "magisat"
+        ? `https://magisat.io/sat/${start}`
+        : `https://magiceden.io/ordinals/item-details/${listing.tokenMint}`;
+
+      const div = document.createElement('div');
+      div.innerHTML = `
+        <strong>${listing.source || 'Magic Eden'}</strong> | 
+        Sat Range: ${start} - ${end} | 
+        Block: #${block} | 
+        Price: ${price} BTC | 
+        Tags: ${tags} | 
+        <a href="${link}" target="_blank">View</a>
+        <hr />
+      `;
+      listingsContainer.appendChild(div);
+    });
+  } catch (error) {
+    listingsContainer.innerHTML = 'Failed to fetch listings.';
+    console.error(error);
   }
-
-  // 🔄 Refresh cache button logic
-  document.getElementById("refreshCache").addEventListener("click", async () => {
-    const btn = document.getElementById("refreshCache");
-    btn.disabled = true;
-    btn.innerText = "Refreshing...";
-
-    try {
-      const res = await fetch("/.netlify/functions/updateCache");
-      const data = await res.json();
-
-      alert(`Cache updated: ${data.count || "no"} listings.`);
-      btn.innerText = "🔄 Refresh Listings Cache";
-      btn.disabled = false;
-    } catch (err) {
-      alert("Failed to refresh cache.");
-      console.error(err);
-      btn.innerText = "Try Again";
-      btn.disabled = false;
-    }
-  });
 });
