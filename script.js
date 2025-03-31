@@ -46,3 +46,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
+document.getElementById("refreshCache").addEventListener("click", async () => {
+  const btn = document.getElementById("refreshCache");
+  btn.disabled = true;
+  btn.innerText = "Refreshing...";
+
+  try {
+    const res = await fetch("/.netlify/functions/updateCache");
+    const data = await res.json();
+
+    alert(`Cache updated: ${data.count || "no"} listings.`);
+    btn.innerText = "🔄 Refresh Listings";
+    btn.disabled = false;
+  } catch (err) {
+    alert("Failed to refresh cache.");
+    console.error(err);
+    btn.innerText = "Try Again";
+    btn.disabled = false;
+  }
+});
+
