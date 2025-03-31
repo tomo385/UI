@@ -1,46 +1,52 @@
-document.getElementById('searchBtn').addEventListener('click', async () => {
-  const listingsContainer = document.getElementById('listings');
-  listingsContainer.innerHTML = 'Loading listings...';
+document.addEventListener("DOMContentLoaded", () => {
+  const searchBtn = document.getElementById("searchBtn");
+  const listingsContainer = document.getElementById("results-list");
 
-  try {
-    const response = await fetch('https://api-mainnet.magiceden.dev/v2/ord/btc/raresats/listings');
-    const data = await response.json();
+  if (searchBtn) {
+    searchBtn.addEventListener("click", fetchListings);
+  } else {
+    // fallback to auto-fetch
+    fetchListings();
+  }
 
-    // Filter only listings with 'black_uncommon'
-    const filteredListings = data.filter(listing => {
-      const tags = listing.satributes || [];
-      return tags.includes('black_uncommon');
-    });
+  async function fetchListings() {
+    listingsContainer.innerHTML = "<li>Loading...</li>";
 
-    if (filteredListings.length === 0) {
-      listingsContainer.innerHTML = 'No listings found.';
-      return;
+    try {
+      const response = await fetch("/.netlify/functions/fetchListings");
+      if (!response.ok) throw new Error("Fetch failed");
+
+      const listings = await response.json();
+
+      const filtered = listings.filter(item => {
+        const tags = item.satributes || [];
+        return tags.includes("black_uncommon");
+      });
+
+      if (filtered.length === 0) {
+        listingsContainer.innerHTML = "<li>No listings found for black_uncommon.</li>";
+        return;
+      }
+
+      listingsContainer.innerHTML = "";
+      filtered.forEach(item => {
+        const tags = item.satributes?.join(", ") || "None";
+        const sat = item.sat_ranges?.[0]?.start || "N/A";
+        const block = item.block || "N/A";
+        const price = item.price || "N/A";
+        const link = item.link || `https://magiceden.io/ordinals/item-details/${item.tokenMint}`;
+
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <strong>Magic Eden</strong> | Sat: ${sat} | Block: ${block} | Price: ${price} BTC | 
+          Tags: ${tags} | <a href="${link}" target="_blank">Buy</a>
+        `;
+        listingsContainer.appendChild(li);
+      });
+    } catch (err) {
+      listingsContainer.innerHTML = "<li>Error fetching listings.</li>";
+      console.error(err);
     }
-
-    listingsContainer.innerHTML = '';
-    filteredListings.forEach(listing => {
-      const satRange = listing.sat_ranges?.[0];
-      const satNum = satRange ? `${satRange.start} - ${satRange.end}` : 'N/A';
-      const block = listing.block || 'N/A';
-      const price = listing.price || 'N/A';
-      const tags = listing.satributes?.join(', ') || 'None';
-      const source = 'Magic Eden';
-      const link = `https://magiceden.io/ordinals/item-details/${listing.tokenMint}`;
-
-      const entry = document.createElement('div');
-      entry.innerHTML = `
-        <strong>${source}</strong> | 
-        Sat Range: ${satNum} | 
-        Block: #${block} | 
-        Price: ${price} BTC | 
-        Tags: ${tags} | 
-        <a href="${link}" target="_blank">Buy</a>
-      `;
-      listingsContainer.appendChild(entry);
-    });
-  } catch (error) {
-    listingsContainer.innerHTML = 'Failed to fetch listings.';
-    console.error(error);
   }
 });
 
