@@ -31,11 +31,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const sat = item.sat_ranges?.[0]?.start || "N/A";
         const block = item.block || "N/A";
         const price = item.price || "N/A";
-        const link = item.link || `https://magiceden.io/ordinals/item-details/${item.token_id}`;
+        const link = item.link || `https://magiceden.io/ordinals/item-details/${item.tokenMint}`;
 
         const li = document.createElement("li");
         li.innerHTML = `
-          <strong>Magic Eden</strong> | Sat: ${sat} | Block: ${block} | Price: ${price} BTC | 
+          <strong>Magic Eden</strong> | Sat: ${sat} | Block: ${block} | Price: ${price} BTC |
           Tags: ${tags} | <a href="${link}" target="_blank">Buy</a>
         `;
         listingsContainer.appendChild(li);
@@ -45,24 +45,25 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error(err);
     }
   }
+
+  // 🔄 Refresh cache button logic
+  document.getElementById("refreshCache").addEventListener("click", async () => {
+    const btn = document.getElementById("refreshCache");
+    btn.disabled = true;
+    btn.innerText = "Refreshing...";
+
+    try {
+      const res = await fetch("/.netlify/functions/updateCache");
+      const data = await res.json();
+
+      alert(`Cache updated: ${data.count || "no"} listings.`);
+      btn.innerText = "🔄 Refresh Listings Cache";
+      btn.disabled = false;
+    } catch (err) {
+      alert("Failed to refresh cache.");
+      console.error(err);
+      btn.innerText = "Try Again";
+      btn.disabled = false;
+    }
+  });
 });
-document.getElementById("refreshCache").addEventListener("click", async () => {
-  const btn = document.getElementById("refreshCache");
-  btn.disabled = true;
-  btn.innerText = "Refreshing...";
-
-  try {
-    const res = await fetch("/.netlify/functions/updateCache");
-    const data = await res.json();
-
-    alert(`Cache updated: ${data.count || "no"} listings.`);
-    btn.innerText = "🔄 Refresh Listings";
-    btn.disabled = false;
-  } catch (err) {
-    alert("Failed to refresh cache.");
-    console.error(err);
-    btn.innerText = "Try Again";
-    btn.disabled = false;
-  }
-});
-
